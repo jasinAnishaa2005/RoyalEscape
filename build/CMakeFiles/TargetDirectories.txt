@@ -1,0 +1,3 @@
+/Users/admin/RoyalEscape/build/CMakeFiles/RoyalEscape.dir
+/Users/admin/RoyalEscape/build/CMakeFiles/edit_cache.dir
+/Users/admin/RoyalEscape/build/CMakeFiles/rebuild_cache.dir
