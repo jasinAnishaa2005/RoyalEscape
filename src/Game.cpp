@@ -1,66 +1,82 @@
+
 #include "../include/Game.hpp"
+#include <SFML/System/Clock.hpp>
 #include <optional>
 
 Game::Game()
-: window(sf::VideoMode({1280,720}), "Royal Escape")
+: window(sf::VideoMode({1280,720}), "Royal Escape"),
+  state(GameState::MENU)
 {
     window.setFramerateLimit(60);
 
-    gameState = GameState::MENU;
+    bgTexture.loadFromFile("assets/backgrounds/royal_bazaar.png");
+    background.setTexture(bgTexture);
+
+    camera = window.getDefaultView();
 }
 
 void Game::run()
 {
+    sf::Clock clock;
+
     while(window.isOpen())
     {
+        float dt = clock.restart().asSeconds();
+
         processEvents();
-        update();
+        update(dt);
         render();
     }
 }
 
 void Game::processEvents()
 {
-    while(const std::optional event = window.pollEvent())
+    while(const auto event = window.pollEvent())
     {
         if(event->is<sf::Event::Closed>())
             window.close();
 
         if(const auto* key = event->getIf<sf::Event::KeyPressed>())
         {
+            if(key->scancode == sf::Keyboard::Scancode::Escape)
+                window.close();
+
             if(key->scancode == sf::Keyboard::Scancode::Enter)
-            {
-                if(gameState == GameState::MENU)
-                    gameState = GameState::INTRO;
-            }
+                state = GameState::PLAYING;
         }
     }
 }
 
-void Game::update()
+void Game::update(float dt)
 {
+    if(state != GameState::PLAYING)
+        return;
 
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
+        player.moveLeft();
+    else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
+        player.moveRight();
+    else
+        player.stop();
+
+    player.update(dt);
+
+    camera.setCenter(player.getPosition());
 }
 
 void Game::render()
 {
-    switch(gameState)
+    window.clear();
+
+    if(state == GameState::MENU)
     {
-        case GameState::MENU:
-            window.clear(sf::Color(15,20,40));
-            break;
-
-        case GameState::INTRO:
-            window.clear(sf::Color(60,25,80));
-            break;
-
-        case GameState::PLAYING:
-            window.clear(sf::Color(20,100,30));
-            break;
-
-        case GameState::GAMEOVER:
-            window.clear(sf::Color(120,30,30));
-            break;
+        window.clear(sf::Color(20,20,40));
+    }
+    else
+    {
+        window.setView(camera);
+        window.draw(background);
+        player.draw(window);
     }
 
     window.display();

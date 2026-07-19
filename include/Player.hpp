@@ -8,12 +8,12 @@ class Player
 public:
     Player();
 
-    void update(float dt);
-    void draw(sf::RenderWindow& window);
-
     void moveLeft();
     void moveRight();
     void stop();
+
+    void update(float dt);
+    void draw(sf::RenderWindow& window);
 
     sf::Vector2f getPosition() const;
 

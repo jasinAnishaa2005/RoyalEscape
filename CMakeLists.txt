@@ -15,9 +15,6 @@ add_executable(RoyalEscape
     src/main.cpp
     src/Game.cpp
     src/Player.cpp
-    src/Enemy.cpp
-    src/Diamond.cpp
-    src/Camera.cpp
 )
 
 target_link_libraries(RoyalEscape
