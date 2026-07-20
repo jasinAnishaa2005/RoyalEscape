@@ -15,7 +15,7 @@ Game::Game()
     lives = 3;
     gameOver = false;
     gameWon = false;
-
+    requiredDiamonds = 10;
     // Load font FIRST
     if(!font.loadFromFile("../assets/arial.ttf"))
     {
@@ -126,7 +126,8 @@ void Game::update(float dt)
 diamondText.setString(
     "Diamonds : " +
     std::to_string(diamondsCollected) +
-    "/10"
+    "/" +
+    std::to_string(requiredDiamonds)
 );
 
 levelText.setString(
@@ -173,21 +174,29 @@ break;
     }
 }
 
-if(diamondsCollected >= 10)
+if(diamondsCollected >= requiredDiamonds)
 {
-    level++;
-    diamondsCollected = 0;
+  level++;
 
-    player.setPosition(100.f,300.f);
+// Reset level progress
+score = 0;
+diamondsCollected = 0;
 
-    createDiamonds();
-    createObstacles();
+// Increase target
+requiredDiamonds *= 2;
 
-    if(level > 10)
-    {
-        gameWon = true;
-        gameOver = true;
-    }
+// Reset player
+player.setPosition(100.f,300.f);
+
+// Create new level
+createDiamonds();
+createObstacles();
+
+if(level > 10)
+{
+    gameWon = true;
+    gameOver = true;
+}
 }
 }
 
@@ -234,11 +243,11 @@ void Game::render()
 
     window.display();
 }
-
 void Game::restart()
 {
     score = 0;
     diamondsCollected = 0;
+    requiredDiamonds = 10;
     level = 1;
     lives = 3;
 
@@ -250,7 +259,6 @@ void Game::restart()
     createDiamonds();
     createObstacles();
 }
-
 void Game::run()
 {
     sf::Clock clock;

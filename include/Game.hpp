@@ -30,7 +30,7 @@ private:
     int diamondsCollected;
     int level;
     int lives;
-
+    int requiredDiamonds;
 
     bool gameOver;
     bool gameWon;

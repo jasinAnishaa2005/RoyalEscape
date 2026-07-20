@@ -11,31 +11,47 @@ Player::Player()
 
 void Player::handleInput(float dt)
 {
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-        body.move(-speed*dt,0);
+    // Move Left (A or Left Arrow)
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) ||
+       sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+    {
+        body.move(-speed * dt, 0);
+    }
 
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-        body.move(speed*dt,0);
+    // Move Right (D or Right Arrow)
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::D) ||
+       sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+    {
+        body.move(speed * dt, 0);
+    }
 
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-        body.move(0,-speed*dt);
+    // Move Up (W or Up Arrow)
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::W) ||
+       sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+    {
+        body.move(0, -speed * dt);
+    }
 
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-        body.move(0,speed*dt);
+    // Move Down (S or Down Arrow)
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::S) ||
+       sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+    {
+        body.move(0, speed * dt);
+    }
 
-    if(body.getPosition().x<0)
-        body.setPosition(0,body.getPosition().y);
+    // Keep player inside window
+    if(body.getPosition().x < 0)
+        body.setPosition(0, body.getPosition().y);
 
-    if(body.getPosition().y<0)
-        body.setPosition(body.getPosition().x,0);
+    if(body.getPosition().y < 0)
+        body.setPosition(body.getPosition().x, 0);
 
-    if(body.getPosition().x>1230)
-        body.setPosition(1230,body.getPosition().y);
+    if(body.getPosition().x > 1230)
+        body.setPosition(1230, body.getPosition().y);
 
-    if(body.getPosition().y>670)
-        body.setPosition(body.getPosition().x,670);
+    if(body.getPosition().y > 670)
+        body.setPosition(body.getPosition().x, 670);
 }
-
 void Player::draw(sf::RenderWindow& window)
 {
     sf::RectangleShape shadow;
