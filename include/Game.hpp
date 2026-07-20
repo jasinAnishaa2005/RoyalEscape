@@ -2,35 +2,50 @@
 #define GAME_HPP
 
 #include <SFML/Graphics.hpp>
-#include "Player.hpp"
+#include <vector>
+#include <string>
+#include <iostream>
 
-enum class GameState
-{
-    MENU,
-    PLAYING,
-    GAMEOVER
-};
+#include "Player.hpp"
 
 class Game
 {
-public:
-    Game();
-    void run();
-
 private:
+    sf::RenderWindow window;
+
+    // HUD
+    sf::Font font;
+    sf::Text scoreText;
+    sf::Text diamondText;
+    sf::Text levelText;
+    sf::Text livesText;
+
+    // Game
+    Player player;
+
+    std::vector<sf::CircleShape> diamonds;
+    std::vector<sf::RectangleShape> obstacles;
+
+    int score;
+    int diamondsCollected;
+    int level;
+    int lives;
+
+
+    bool gameOver;
+    bool gameWon;
+
     void processEvents();
     void update(float dt);
     void render();
 
-    sf::RenderWindow window;
-    sf::View camera;
+    void createDiamonds();
+    void createObstacles();
+    void checkCollision();
+    void restart();
 
-    GameState state;
-
-    Player player;
-
-    sf::Texture bgTexture;
-    sf::Sprite background;
+public:
+    Game();
+    void run();
 };
-
 #endif

@@ -5,24 +5,19 @@
 
 class Player
 {
+private:
+    sf::RectangleShape body;
+    float speed;
+
 public:
     Player();
 
-    void moveLeft();
-    void moveRight();
-    void stop();
-
-    void update(float dt);
+    void handleInput(float dt);
     void draw(sf::RenderWindow& window);
 
-    sf::Vector2f getPosition() const;
+    sf::FloatRect getBounds() const;
 
-private:
-    sf::Texture texture;
-    sf::Sprite sprite;
-
-    float speed = 300.f;
-    float velocity = 0.f;
+    void setPosition(float x, float y);
 };
 
 #endif
