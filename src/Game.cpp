@@ -50,6 +50,22 @@ livesText.setFillColor(sf::Color::Red);
 livesText.setPosition(20.f,140.f);
 livesText.setString("Lives : 3");
 
+collectBuffer.loadFromFile("../assets/audio/collect.wav");
+hitBuffer.loadFromFile("../assets/audio/hit.wav");
+levelBuffer.loadFromFile("../assets/audio/levelup.wav");
+gameOverBuffer.loadFromFile("../assets/audio/gameover.wav");
+
+music.openFromFile("../assets/audio/background.wav");
+
+collectSound.setBuffer(collectBuffer);
+hitSound.setBuffer(hitBuffer);
+levelSound.setBuffer(levelBuffer);
+gameOverSound.setBuffer(gameOverBuffer);
+
+music.setLoop(true);
+music.setVolume(35);
+music.play();
+
     // Create objects
     createDiamonds();
     createObstacles();
@@ -146,6 +162,7 @@ void Game::checkCollision()
         if(player.getBounds().intersects(d.getGlobalBounds()))
         {
             score += 10;
+            collectSound.play();
             diamondsCollected++;
 
             d.setPosition(
@@ -160,7 +177,7 @@ void Game::checkCollision()
     if(player.getBounds().intersects(o.getGlobalBounds()))
     {
         lives--;
-
+        hitSound.play();
 player.setPosition(100.f,300.f);
 
 createObstacles();
@@ -177,6 +194,7 @@ break;
 if(diamondsCollected >= requiredDiamonds)
 {
   level++;
+  levelSound.play();
 
 // Reset level progress
 score = 0;
@@ -195,28 +213,126 @@ createObstacles();
 if(level > 10)
 {
     gameWon = true;
+    gameOverSound.play();
     gameOver = true;
-}
-}
-}
 
+}
+}
+}
 void Game::render()
 {
-    window.clear(sf::Color(40,170,40));
+    window.clear();
 
-    for(auto &d : diamonds)
-        window.draw(d);
+    // Sky
+    sf::RectangleShape sky(sf::Vector2f(1280,250));
+    sky.setFillColor(sf::Color(120,180,255));
+    window.draw(sky);
 
+    // Grass
+    sf::RectangleShape grass(sf::Vector2f(1280,470));
+    grass.setPosition(0,250);
+    grass.setFillColor(sf::Color(60,160,60));
+    window.draw(grass);
+
+    // Road
+    sf::RectangleShape road(sf::Vector2f(220,720));
+    road.setPosition(530,0);
+    road.setFillColor(sf::Color(120,90,60));
+    window.draw(road);
+
+    // River
+    sf::RectangleShape river(sf::Vector2f(150,720));
+    river.setPosition(1080,0);
+    river.setFillColor(sf::Color(30,140,255));
+    window.draw(river);
+
+    // Castle
+    sf::RectangleShape castle(sf::Vector2f(1280,80));
+    castle.setFillColor(sf::Color(120,120,120));
+    window.draw(castle);
+
+    // Towers
+    sf::RectangleShape leftTower(sf::Vector2f(80,160));
+    leftTower.setPosition(50,90);
+    leftTower.setFillColor(sf::Color(100,100,100));
+    window.draw(leftTower);
+
+    sf::RectangleShape rightTower(sf::Vector2f(80,160));
+    rightTower.setPosition(1150,90);
+    rightTower.setFillColor(sf::Color(100,100,100));
+    window.draw(rightTower);
+
+    // Clouds
+    sf::CircleShape c1(30);
+    c1.setFillColor(sf::Color::White);
+    c1.setPosition(120,40);
+
+    sf::CircleShape c2(25);
+    c2.setFillColor(sf::Color::White);
+    c2.setPosition(150,25);
+
+    sf::CircleShape c3(30);
+    c3.setFillColor(sf::Color::White);
+    c3.setPosition(180,40);
+
+    window.draw(c1);
+    window.draw(c2);
+    window.draw(c3);
+
+    // Trees
+    auto drawTree = [&](float x,float y)
+    {
+        sf::RectangleShape trunk(sf::Vector2f(20,45));
+        trunk.setPosition(x,y);
+        trunk.setFillColor(sf::Color(120,70,20));
+
+        sf::CircleShape leaves(28);
+        leaves.setFillColor(sf::Color(20,130,20));
+        leaves.setPosition(x-18,y-35);
+
+        window.draw(trunk);
+        window.draw(leaves);
+    };
+
+    drawTree(80,300);
+    drawTree(220,500);
+    drawTree(930,260);
+    drawTree(990,430);
+
+    // Diamonds
+    for(auto &diamond : diamonds)
+    {
+        sf::ConvexShape gem;
+        gem.setPointCount(4);
+
+        gem.setPoint(0,{10,0});
+        gem.setPoint(1,{20,10});
+        gem.setPoint(2,{10,20});
+        gem.setPoint(3,{0,10});
+
+        gem.setFillColor(sf::Color::Cyan);
+        gem.setOutlineThickness(2);
+        gem.setOutlineColor(sf::Color::White);
+
+        gem.setPosition(diamond.getPosition());
+
+        window.draw(gem);
+    }
+
+    // Obstacles
     for(auto &o : obstacles)
         window.draw(o);
 
+    // Player
     player.draw(window);
 
+    // HUD
     window.draw(scoreText);
     window.draw(diamondText);
     window.draw(levelText);
     window.draw(livesText);
 
+    // Game Over
     if(gameOver)
     {
         sf::RectangleShape overlay(sf::Vector2f(1280,720));
@@ -229,15 +345,11 @@ void Game::render()
         text.setFillColor(sf::Color::White);
 
         if(gameWon)
-        {
             text.setString("YOU ESCAPED!\n\nPress R to Play Again");
-        }
         else
-        {
             text.setString("GAME OVER\n\nPress R to Restart");
-        }
 
-        text.setPosition(300.f,250.f);
+        text.setPosition(280,250);
         window.draw(text);
     }
 

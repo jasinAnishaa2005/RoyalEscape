@@ -5,7 +5,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
-
+#include <SFML/Audio.hpp>
 #include "Player.hpp"
 
 class Game
@@ -19,7 +19,15 @@ private:
     sf::Text diamondText;
     sf::Text levelText;
     sf::Text livesText;
-
+    sf::SoundBuffer collectBuffer;
+    sf::SoundBuffer hitBuffer;
+    sf::SoundBuffer levelBuffer;
+    sf::SoundBuffer gameOverBuffer;
+    sf::Music music;
+    sf::Sound collectSound;
+    sf::Sound hitSound;
+    sf::Sound levelSound;
+    sf::Sound gameOverSound;
     // Game
     Player player;
 

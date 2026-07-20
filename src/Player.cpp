@@ -2,11 +2,11 @@
 
 Player::Player()
 {
-    body.setSize(sf::Vector2f(50.f,50.f));
-    body.setFillColor(sf::Color::Blue);
+    body.setSize(sf::Vector2f(35.f,35.f));
+    body.setFillColor(sf::Color(30,30,220));
     body.setPosition(100.f,300.f);
 
-    speed = 250.f;
+    speed = 350.f;
 }
 
 void Player::handleInput(float dt)
@@ -54,26 +54,53 @@ void Player::handleInput(float dt)
 }
 void Player::draw(sf::RenderWindow& window)
 {
-    sf::RectangleShape shadow;
+    sf::RectangleShape shadow(sf::Vector2f(40,8));
+    shadow.setFillColor(sf::Color(0,0,0,70));
+    shadow.setPosition(body.getPosition().x+2, body.getPosition().y+35);
 
-shadow.setSize(sf::Vector2f(45.f,10.f));
-shadow.setFillColor(sf::Color(0,0,0,90));
+    window.draw(shadow);
 
-shadow.setPosition(
-body.getPosition().x+4,
-body.getPosition().y+42
-);
+    // Head
+    sf::CircleShape head(8);
+    head.setFillColor(sf::Color(255,220,180));
+    head.setPosition(body.getPosition().x+9, body.getPosition().y);
 
-window.draw(shadow);
+    // Body
+    sf::RectangleShape torso(sf::Vector2f(18,20));
+    torso.setFillColor(sf::Color(40,120,40));
+    torso.setPosition(body.getPosition().x+8, body.getPosition().y+12);
 
-window.draw(body);
-    window.draw(body);
+    // Legs
+    sf::RectangleShape leg1(sf::Vector2f(5,12));
+    leg1.setFillColor(sf::Color::Black);
+    leg1.setPosition(body.getPosition().x+10, body.getPosition().y+30);
+
+    sf::RectangleShape leg2(sf::Vector2f(5,12));
+    leg2.setFillColor(sf::Color::Black);
+    leg2.setPosition(body.getPosition().x+20, body.getPosition().y+30);
+
+    // Bag
+    sf::RectangleShape bag(sf::Vector2f(6,14));
+    bag.setFillColor(sf::Color(120,70,20));
+    bag.setPosition(body.getPosition().x+1, body.getPosition().y+15);
+
+    window.draw(head);
+    window.draw(torso);
+    window.draw(bag);
+    window.draw(leg1);
+    window.draw(leg2);
 }
+
+
 
 sf::FloatRect Player::getBounds() const
 {
-    return body.getGlobalBounds();
+    return sf::FloatRect(body.getPosition().x,
+                         body.getPosition().y,
+                         35.f,
+                         42.f);
 }
+
 
 void Player::setPosition(float x,float y)
 {
