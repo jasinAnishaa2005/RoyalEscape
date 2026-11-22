@@ -1,15 +1,6 @@
 <div align="center">
 
-<img src="assets/readme-banner.svg" alt="Royal Escape — fantasy game prototype" width="100%" />
-
-
-<div align="center">
-
-<img src="assets/project-preview.svg" alt="Royal Escape animated project preview" width="100%" />
-
-</div>
-
-# Royal Escape 🏰
+<img src="assets/readme-banner.svg" alt="Royal Escape — fantasy game prototype" width="100%" />\n\n# Royal Escape 🏰
 
 **A fantasy game prototype built with C++ and SFML.**
 
