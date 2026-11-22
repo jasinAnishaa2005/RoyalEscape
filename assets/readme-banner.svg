@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300">
+<defs><linearGradient id="g" x2="1" y2="1"><stop stop-color="#fff8ee"/><stop offset="1" stop-color="#d8b89d"/></linearGradient><pattern id="p" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M0 0h14v14H0zM14 14h14v14H14z" fill="#9a6b50" opacity=".18"/></pattern></defs>
+<rect width="1200" height="300" rx="24" fill="url(#g)"/><path d="M0 0h170v300H0zM1030 0h170v300h-170z" fill="url(#p)"/>
+<path d="M0 230Q240 160 460 230T900 220T1200 220V300H0Z" fill="#9b7056" opacity=".35"/>
+<g fill="none" stroke="#70452f" stroke-width="5"><path d="M80 72l12 28 28 12-28 12-12 28-12-28-28-12 28-12z"/><path d="M1100 75l12 28 28 12-28 12-12 28-12-28-28-12 28-12z"/></g>
+<g fill="#4b3023" font-family="Georgia,serif"><text x="220" y="135" font-size="72" font-weight="bold">ROYAL ESCAPE</text><text x="225" y="190" font-size="28" font-family="Arial,sans-serif">A fantasy game prototype built with C++ and SFML</text><text x="225" y="245" font-size="20" font-family="Arial,sans-serif" letter-spacing="4">EXPLORE · BUILD · PLAY</text></g>
+</svg>
